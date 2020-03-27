@@ -5,14 +5,15 @@
 I2C i2c(I2C_SDA, I2C_SCL);        // sda, scl
 Serial pc(USBTX, USBRX); // tx, rx
  
-const int addr = 0x0000; // define the correct I2C Address    
+const int addr = 0x0000 << 0x7000; // define the correct I2C Address    
  
 int main() {
     
     char regaddr[1];
     char readdata[8]; // room for length and 7 databytes
     //char writedata[9]; // room for reg address, length and 7 databytes
-    while (1) {
+    while (1) 
+    {
         // read the data
         regaddr[0] = 0x0000;  // Byte 1 register address
         regaddr[1] = 0x0000;  // Byte 2 register address
@@ -47,6 +48,6 @@ int main() {
     } return 0;
 }
 
-// resultaat van dongle L "Register 0x0 = 0x0 0x0 0x0 0x41 0x2b 0x0 0x8"
+// resultaat van dongle NB "Register 0x0 = 0x0 0x0 0x0 0x41 0x2b 0x0 0x8"
 
 

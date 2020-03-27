@@ -1,22 +1,21 @@
 // Compile with: mbed compile -f --toolchain GCC_ARM --target NUCLEO_L476RG
 #include "mbed.h"
 #include <string>
-
-I2C i2c(I2C_SDA, I2C_SCL);        // sda, scl
+ 
+I2C i2c(D14, D15);        // sda, scl
 Serial pc(USBTX, USBRX); // tx, rx
  
-const int addr = 0x0000; // define the correct I2C Address    
+const int addr = 0x00 << 0x07; // define the correct I2C Address    
  
 int main() {
-    
     char regaddr[1];
     char readdata[8]; // room for length and 7 databytes
-    //char writedata[9]; // room for reg address, length and 7 databytes
-    while (1) {
+    char writedata[9]; // room for reg address, length and 7 databytes
+    while (1) 
+    {
         // read the data
-        regaddr[0] = 0x0000;  // Byte 1 register address
-        regaddr[1] = 0x0000;  // Byte 2 register address
-        //i2c.write(addr, regaddr, 1, true);  // select the register, no I2C Stop
+        regaddr[0] = 0xE0;
+        i2c.write(addr, regaddr, 1, true);  // select the register, no I2C Stop
         i2c.read(addr, readdata, 8);        // read the length byte and the 7 databytes
         
         wait (1);
@@ -46,7 +45,5 @@ int main() {
  
     } return 0;
 }
-
-// resultaat van dongle L "Register 0x0 = 0x0 0x0 0x0 0x41 0x2b 0x0 0x8"
-
+// resultaat van dongle NB "Register 0xe0 = 0x0 0x0 0x0 0x85 0x2b 0x0 0x8"
 
