@@ -18,3 +18,8 @@ Het installeren en testen van "stm32cubeIDE" voor eventueel gebruik om de Nucleo
 Het uitlezen van NB EEPROM, waarbij ik een paar aanpasingen heb gemaakt. Hierbij heb ik voor elke andere uitkomst de code in een 'test.txt' file gezet.
 Bij elke 'test' staat er onderaan de verkregen uitkomst.
 Ook heb ik een andere EEPROM getest (dongle 'L') en kwam ik het zelfde uit als de vorige EEPROM. Dit betekent dat er duidelijk fouten in de code zijn. Ik zal deze de volgende keer oplossen.
+
+## Zaterdag 29/03/2020 van 15u30 tot 20u40
+Het verder bekijken van waar mogelijks de fouten in de code zitten.
+En het testen van de code door kleine aanpassingen te maken in de code.
+Verder online opzoeken hoe de EEPROM's worden uitgelezen.
