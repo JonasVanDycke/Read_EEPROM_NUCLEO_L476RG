@@ -64,40 +64,60 @@
 // }
 
 #include "mbed.h"
-#include <string>
- 
-#define RELAY_BOARD_ADDR (0x40)
 
-I2C i2c(I2C_SDA, I2C_SCL);
-Serial pc(USBTX, USBRX); //tx, rx
-//I2C i2c(I2C_SDA, I2C_SCL);
- 
-DigitalOut myled(LED1);
- 
-int main()
-{
- 
-    char data_write[2];
-    char data_counter = 0;
-    
-    data_write[0] = 0x12;
-    data_write[1] = 0x02;
-     
+I2C i2c(I2C_SDA, I2C_SCL); //sda = D14, PB_9, I2C_SDA //scl = D15, PB_8, I2C_SCL
+Serial pc(USBTX, USBRX);
+
+
+const int addr = 0x48 << 1; // define the correct I2C Address    
+
+int main() {
+    char regaddr[1];
+    char readdata[8]; // room for length and 7 databytes
+    char writedata[9]; // room for reg address, length and 7 databytes
+
     while (1) {
-        
-        i2c.write(RELAY_BOARD_ADDR, data_write, 2, 0);
+        regaddr[0] = 0x00;
+        i2c.write(addr, regaddr, 1, true);  // select the register, no I2C Stop
+        i2c.read(addr, readdata, 8);        // read the length byte and the 7 databytes
  
-        myled = !myled;
-
-        data_counter++;
-        
-        data_write[1] = data_counter;
-        pc.printf(data_counter + "Register \r\n");
-        pc.printf("Register 0x%x 0x%x\r\n",
-                  data_write[0],
-                  data_write[1]);
-
-        wait(2.0);
-    }
+        // print the data to the screen
+        printf("///////////////////////////////////\r\n");
+        pc.printf("Register1 0x%.4x = 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\r\n",
+                  regaddr[0],
+                  readdata[0], readdata[1], readdata[2], readdata[3], 
+                  readdata[4], readdata[5], readdata[6], readdata[7] );
+        pc.printf("Register2 %#.4x = %#x %#x %#x %#x %#x %#x %#x %#x\r\n",
+                  regaddr[0],
+                  readdata[0], readdata[1], readdata[2], readdata[3], 
+                  readdata[4], readdata[5], readdata[6], readdata[7] );
+        wait(1);
  
+         // copy the data, starting with register address
+         writedata[0] = regaddr[0];  // register address
+         writedata[1] = readdata[0]; // length, should be 7
+         writedata[2] = readdata[1]; // byte 1
+         writedata[3] = readdata[2];
+         writedata[4] = readdata[3];
+         writedata[5] = readdata[4];
+         writedata[6] = readdata[5];
+         writedata[7] = readdata[6];
+         writedata[8] = readdata[7]; // byte 7
+ 
+        // write the data
+        i2c.write(addr, writedata, 9); // select the register, 
+                                       // write the length, write 7 databytes      
+        pc.printf("Register3 0x%x = 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\r\n",
+                  writedata[0],
+                  writedata[1], writedata[2], writedata[3], writedata[4],
+                  writedata[5], writedata[6], writedata[7], writedata[8] );
+        pc.printf("Register4 %#x = %#x %#x %#x %#x %#x %#x %#x %#x\r\n",
+                  writedata[0],
+                  writedata[1], writedata[2], writedata[3], writedata[4],
+                  writedata[5], writedata[6], writedata[7], writedata[8] );
+        wait(1);
+
+
+
+  }
 }

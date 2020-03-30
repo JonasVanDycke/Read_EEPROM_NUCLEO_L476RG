@@ -23,3 +23,14 @@ Ook heb ik een andere EEPROM getest (dongle 'L') en kwam ik het zelfde uit als d
 Het verder bekijken van waar mogelijks de fouten in de code zitten.
 En het testen van de code door kleine aanpassingen te maken in de code.
 Verder online opzoeken hoe de EEPROM's worden uitgelezen.
+
+## Maandag 30/03/2020 van 15u30 tot 19u15
+Het verder zoeken om de 8 bytes te kunnen uitlezen.
+Het opzoeken hoe de 'format specifier' werkt en zelf hieruit een opstelling maken. (Link i.v.m. 'format specifier':http://www.cplusplus.com/reference/cstdio/printf/)
+In de code die ik op dit moment heb kom ik het volgende uit voor de 'L dongle':
+//////////////////////////////////
+Register1 0x0000 = 0x5f 0x97 0x0 0x8 0x0 0x0 0x0 0x0
+Register2 0000 = 0x5f 0x97 0 0x8 0 0 0 0
+Register3 0x0 = 0x5f 0x97 0x0 0x8 0x0 0x0 0x0 0x0
+Register4 0 = 0x5f 0x97 0 0x8 0 0 0 0
+
