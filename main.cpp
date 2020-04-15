@@ -69,7 +69,7 @@ I2C i2c(I2C_SDA, I2C_SCL); //sda = D14, PB_9, I2C_SDA //scl = D15, PB_8, I2C_SCL
 Serial pc(USBTX, USBRX);
 
 
-const int addr = 0x48 << 1; // define the correct I2C Address    
+const int addr = 0x0000; // define the correct I2C Address    
 
 int main() {
     char regaddr[1];
