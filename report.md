@@ -1,5 +1,7 @@
 # Report
 
+<!--git push https://github.com/vives-projectwerk-2-2020/Read_EEPROM_NUCLEO_L476RG.git-->
+
 ## Zondag 22/03/2020 van 14u30 tot 17u30
 
 Verbinding kunnen maken met de Nucleo (ik wist niet hoe je code naar de Nucleo stuurde, is nu opgelost).
