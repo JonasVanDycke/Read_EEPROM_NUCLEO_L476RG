@@ -13,7 +13,7 @@ Ik heb eerst op een kladblad appart de pinwaarden van de EEPROM opgeschreven en 
 Maar aangezien ik nog geen werkende code had, ben ik verder beginnen kijken voor eventuele code om de EEPROM's mee uit te lezen. Waarbij ik hier en daar een paar dingen gevonden heb, maar al snel ondervond dat ik niet visueel de uitkomende data van de EEPROM kon zien.
 Na wat verder zoeken hoe ik visueel de data kan zien, vond ik dat 'Putty' kon gebruikt worden. Bij het uitvoeren van 'Putty' kwam ik voor de eerste EEPROM 'NB' de uitkomst van "Register 0xe0 = 0x0 0x0 0x0 0x85 0x2b 0x0 0x8".
 Ik weet niet of dit correct is, maar het is al een goede stap in de juiste richting. Ik heb hier lang aan bezig geweest, maar ik begrijp nu beter waar ik mee bezig ben en hoe het in elkaar zit.
-De code die ik gebruikt heb vind u in oderstaande link: https://os.mbed.com/forum/mbed/topic/3856/?page=1#comment-56893
+De code die ik gebruikt heb vind u in oderstaande link: <https://os.mbed.com/forum/mbed/topic/3856/?page=1#comment-56893>
 
 ## Dinsdag 24/03/2020 van 15u tot 17u30
 
@@ -34,7 +34,7 @@ Verder online opzoeken hoe de EEPROM's worden uitgelezen.
 ## Maandag 30/03/2020 van 15u30 tot 19u15
 
 Het verder zoeken om de 8 bytes te kunnen uitlezen.
-Het opzoeken hoe de 'format specifier' werkt en zelf hieruit een opstelling maken. (Link i.v.m. 'format specifier':http://www.cplusplus.com/reference/cstdio/printf/)
+Het opzoeken hoe de 'format specifier' werkt en zelf hieruit een opstelling maken. (Link i.v.m. 'format specifier':<http://www.cplusplus.com/reference/cstdio/printf/>)
 In de code die ik op dit moment heb kom ik het volgende uit voor de 'L dongle':
 //////////////////////////////////
 Register1 0x0000 = 0x5f 0x97 0x0 0x8 0x0 0x0 0x0 0x0
@@ -57,3 +57,27 @@ Verder opzoek werkgedaan (i.v.m. het opstellen van de code).
 
 Verder opzoek werkgedaan (i.v.m. het opstellen van de code).
 En hulp gevraagt i.v.m. uitlezen EEPROM's.
+
+## Vrijdag 17/04/2020 van 14u30 tot 18u40
+
+Bij het proberen uitlezen van een Dongle (EEPROM) a.d.h.v. vorige code kwam men volgend resultaat uit:
+
+```
+Reading from eeprom
+Printing the read data from eeprom to Serial device
+0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0
+0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0
+0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0
+```
+
+Na de aanpassen van de Buffers (`char buffer[lengthTest] = {0};` naar `char buffer[lengthTest];`) kreeg ik als uitgang:
+
+```
+Reading from eeprom
+Printing the read data from eeprom to Serial device
+0x2 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x13 0x4 0x0 0x8
+0x9c 0xb 0x0 0x20 0x0 0x0 0x0 0x20
+0x80 0x25 0x0 0x0 0x0 0x0 0x0 0x0 0x88 0xf 0x0 0x20 0x2
+```
+
+Verder getest door waarden te veranderen en de uitkomsten vergelijken bij de aanpassingen, maar bekom nog niet de juiste waarden uit.

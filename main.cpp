@@ -1,4 +1,5 @@
-// Compile with: mbed compile -f --toolchain GCC_ARM --target NUCLEO_L476RG
+// Compile with: mbed compile -f 
+//           Or: mbed compile -f --toolchain GCC_ARM --target NUCLEO_L476RG
 // https://os.mbed.com/forum/helloworld/topic/3827/?page=1#comment-19090
 // #include "mbed.h"
 // #include <string>
@@ -132,39 +133,48 @@
 // }
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include "mbed.h"
 #include "EEPROM.h"
 
 using namespace EEPROMDriver;
 
 Serial pc(USBTX, USBRX);
+I2C i2cbus(I2C_SDA, I2C_SCL); //sda & scl
 
 int main(){
 
     printf("\r\n[Particula] Example of using EEPROM driver");
 
-    
-    char data[] = {0x05,0x61,0x92,0x31,0x04,0x55,0x68,0x7a,0x8b,0xc9,0xa4,0xb9};
-    char data2[] = {0x05,0x64,0x92,0x31,0x04,0x55,0x68,0x7a};
-    char data3[] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x10,0x11,0x12};
-    
+    //original////////////////////////////////////////////////////
+    //char data[] = {0x05,0x61,0x92,0x31,0x04,0x55,0x68,0x7a,0x8b,0xc9,0xa4,0xb9};
+    //char data2[] = {0x05,0x64,0x92,0x31,0x04,0x55,0x68,0x7a};
+    //char data3[] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x10,0x11,0x12};
+    //////////////////////////////////////////////////////////////
+    char data[8] = {};
+    //char data[] = {0x0005,0x0061,0x0092,0x0031,0x0004,0x0055,0x0068,0x007a,0x008b,0x00c9,0x00a4,0x00b9};
+    char data2[8] = {};
+    char data3[12] = {};
+    //char data3[] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c};
+
     unsigned int lengthTest = sizeof(data); 
     unsigned int lengthTest2 = sizeof(data2);
     unsigned int lengthTest3 = sizeof(data3);
         
-    char buffer[lengthTest] = {0};
-    char buffer2[lengthTest2] = {0};
-    char buffer3[lengthTest3] = {0};
+    //original////////////////////////////////////////////////////
+    //char buffer[lengthTest] = {0};
+    //char buffer2[lengthTest2] = {0};
+    //char buffer3[lengthTest3] = {0};
+    //////////////////////////////////////////////////////////////
+    char buffer[lengthTest];
+    char buffer2[lengthTest2];
+    char buffer3[lengthTest3];
     
-    I2C i2cbus(I2C_SDA, I2C_SCL); //sda & scl
     EEPROMDriver::EEPROM eeprom(&i2cbus);
 
-    pc.printf("\r\nWriting data array to eeprom");
-
-    // eeprom.write(data, lengthTest, 0); 
+    //pc.printf("\r\nWriting data array to eeprom");
+    //eeprom.write(data, lengthTest, 0); 
     // eeprom.write(data2, lengthTest2, lengthTest);
-    // eeprom.write(data3, lengthTest3, lengthTest2 + lengthTest);
+    //eeprom.write(data3, lengthTest3, lengthTest2 + lengthTest);
 
     pc.printf("\r\nReading from eeprom");
 
@@ -176,18 +186,17 @@ int main(){
     pc.printf("\r\n"); 
 
     for(unsigned int i = 0; i < lengthTest; i++){
-            pc.printf("0x%x ", buffer[i]);
-    }
-    pc.printf("\r\n");
+        pc.printf("0x%x ", buffer[i]);
+    } pc.printf("\r\n");
+
 
     for(unsigned int i = 0; i < lengthTest2; i++){
-            pc.printf("0x%x ", buffer2[i]);
-    }
+        pc.printf("0x%x ", buffer2[i]);
+    } pc.printf("\r\n");
 
-    pc.printf("\r\n");
 
     for(unsigned int i = 0; i < lengthTest3; i++){
-            pc.printf("0x%x ", buffer3[i]);
+        pc.printf("0x%x ", buffer3[i]);
     }
 
     while(1) {
