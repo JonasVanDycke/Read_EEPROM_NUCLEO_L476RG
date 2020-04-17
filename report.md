@@ -46,3 +46,14 @@ Register4 0 = 0x5f 0x97 0 0x8 0 0 0 0
 
 Heropzoeken/opfrissen hoe alles weer in elkaar zit en wat er moet gebeuren.
 En ondertussen verder gezocht (bv. verschil tussen 'Random Read' en 'Sequential Read').
+
+## Donderdag 16/04/2020 van 11u tot 13u10 en 14u tot 14u15 en 15u tot 18u
+
+### 11u tot 13u10
+
+Verder opzoek werkgedaan (i.v.m. het opstellen van de code).
+
+### 14u tot 14u15 en 15u tot 18u
+
+Verder opzoek werkgedaan (i.v.m. het opstellen van de code).
+En hulp gevraagt i.v.m. uitlezen EEPROM's.
