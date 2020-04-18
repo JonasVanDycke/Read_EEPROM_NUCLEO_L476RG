@@ -81,3 +81,19 @@ Printing the read data from eeprom to Serial device
 ```
 
 Verder getest door waarden te veranderen en de uitkomsten vergelijken bij de aanpassingen, maar bekom nog niet de juiste waarden uit.
+
+## Zaterdag 18/04/2020 van 14u45 tot
+
+Opstelling van de Dongle aangepast volgens de opstelling van de link, zonder de condensator <http://dangerousprototypes.com/blog/2012/10/17/how-to-use-the-bus-pirate-onboard-24aa-i2c-eeprom/>
+Aan de hand van deze opstelling, verder kijken of er geen verandering is bij het uit lezen. 
+
+Bij het uitlezen van de "Dongle L" kreeg ik als uitkomst:
+
+```
+Reading from eeprom
+Printing the read data from eeprom to Serial device
+01 a2 eb 34 4e dc 7c 5a
+0x01 0xa2 0xeb 0x34 0x4e 0xdc 0x7c 0x5a
+```
+
+Bij het uitlezen komen de eerste 2 bytes overeenkomen met de gewenste 2 bytes zoals gevraagt.

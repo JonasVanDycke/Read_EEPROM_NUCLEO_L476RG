@@ -11,7 +11,7 @@ namespace EEPROMDriver{
         
 
         private:
-            const char i2cAddress = 0x00 ;//<< 1;    // The only avalible I2C Address for our eeprom
+            const char i2cAddress = 0xA1 ;//<< 1;    // The only avalible I2C Address for our eeprom
             I2C * i2cBus;
     };
 };

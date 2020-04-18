@@ -152,22 +152,22 @@ int main(){
     //////////////////////////////////////////////////////////////
     char data[8] = {};
     //char data[] = {0x0005,0x0061,0x0092,0x0031,0x0004,0x0055,0x0068,0x007a,0x008b,0x00c9,0x00a4,0x00b9};
-    char data2[8] = {};
-    char data3[12] = {};
+    //char data2[32] = {};
+    //char data3[64] = {};
     //char data3[] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c};
 
     unsigned int lengthTest = sizeof(data); 
-    unsigned int lengthTest2 = sizeof(data2);
-    unsigned int lengthTest3 = sizeof(data3);
+    // unsigned int lengthTest2 = sizeof(data2);
+    // unsigned int lengthTest3 = sizeof(data3);
         
     //original////////////////////////////////////////////////////
-    //char buffer[lengthTest] = {0};
-    //char buffer2[lengthTest2] = {0};
-    //char buffer3[lengthTest3] = {0};
+    char buffer[lengthTest] = {0};
+    // char buffer2[lengthTest2] = {0};
+    // char buffer3[lengthTest3] = {0};
     //////////////////////////////////////////////////////////////
-    char buffer[lengthTest];
-    char buffer2[lengthTest2];
-    char buffer3[lengthTest3];
+    //char buffer[lengthTest];
+    //char buffer2[lengthTest2];
+    //char buffer3[lengthTest3];
     
     EEPROMDriver::EEPROM eeprom(&i2cbus);
 
@@ -179,25 +179,30 @@ int main(){
     pc.printf("\r\nReading from eeprom");
 
     eeprom.read(buffer, lengthTest, 0);
-    eeprom.read(buffer2, lengthTest2, lengthTest);
-    eeprom.read(buffer3, lengthTest3, lengthTest2 + lengthTest);
+    // eeprom.read(buffer2, lengthTest2, lengthTest);
+    // eeprom.read(buffer3, lengthTest3, lengthTest2 + lengthTest);
 
     pc.printf("\r\nPrinting the read data from eeprom to Serial device");
     pc.printf("\r\n"); 
 
+    //Uitlezen zonder 0x vooraan
     for(unsigned int i = 0; i < lengthTest; i++){
-        pc.printf("0x%x ", buffer[i]);
+        pc.printf("%.2x ", buffer[i]);
+    } pc.printf("\r\n");
+
+    for(unsigned int i = 0; i < lengthTest; i++){
+        pc.printf("0x%.2x ", buffer[i]);
     } pc.printf("\r\n");
 
 
-    for(unsigned int i = 0; i < lengthTest2; i++){
-        pc.printf("0x%x ", buffer2[i]);
-    } pc.printf("\r\n");
+    // for(unsigned int i = 0; i < lengthTest2; i++){
+    //     pc.printf("0x%x ", buffer2[i]);
+    // } pc.printf("\r\n");
 
 
-    for(unsigned int i = 0; i < lengthTest3; i++){
-        pc.printf("0x%x ", buffer3[i]);
-    }
+    // for(unsigned int i = 0; i < lengthTest3; i++){
+    //     pc.printf("0x%x ", buffer3[i]);
+    // }
 
     while(1) {
         ThisThread::sleep_for(30000);
