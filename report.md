@@ -82,13 +82,15 @@ Printing the read data from eeprom to Serial device
 
 Verder getest door waarden te veranderen en de uitkomsten vergelijken bij de aanpassingen, maar bekom nog niet de juiste waarden uit.
 
-## Zaterdag 18/04/2020 van 14u45 tot
+## Zaterdag 18/04/2020 van 14u45 tot 16u20 en 17u30 tot 18u40
+
+### 14u45 tot 16u20
 
 Opstelling van de Dongle aangepast volgens de opstelling van de link, zonder de condensator <http://dangerousprototypes.com/blog/2012/10/17/how-to-use-the-bus-pirate-onboard-24aa-i2c-eeprom/>
 Aan de hand van deze opstelling, verder kijken of er geen verandering is bij het uit lezen. 
 
-Bij het uitlezen van de "Dongle L" kreeg ik als uitkomst:
-
+Bij het uitlezen van de `Dongle L` kreeg ik als uitkomst:
+(Gewenste waarde `01a2...`)
 ```
 Reading from eeprom
 Printing the read data from eeprom to Serial device
@@ -97,3 +99,34 @@ Printing the read data from eeprom to Serial device
 ```
 
 Bij het uitlezen komen de eerste 2 bytes overeenkomen met de gewenste 2 bytes zoals gevraagt.
+
+### 17u30 tot 18u40
+
+De bytes uilezen van de andere Dongles.
+
+Uitlezen van `Dongle NB` (Gewenste waarde `0164...`):
+
+```
+Reading from eeprom
+Printing the read data from eeprom to Serial device
+01 64 a5 47 98 d7 d2 7a
+0x01 0x64 0xa5 0x47 0x98 0xd7 0xd2 0x7a
+```
+
+Uitlezen van `Dongle SS` (Gewenste waarde `0136...`):
+
+```
+Reading from eeprom
+Printing the read data from eeprom to Serial device
+01 36 ed ca af 28 5d 1d
+0x01 0x36 0xed 0xca 0xaf 0x28 0x5d 0x1d
+```
+
+Uitlezen van `Dongle ADA` (Gewenste waarde `016b...`):
+
+```
+Reading from eeprom
+Printing the read data from eeprom to Serial device
+01 6b c4 46 42 86 f3 fb
+0x01 0x6b 0xc4 0x46 0x42 0x86 0xf3 0xfb
+```
