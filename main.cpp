@@ -73,9 +73,12 @@
 // const int addr = 0x0000; // define the correct I2C Address    
 
 // int main() {
-//     char regaddr[1];
-//     char readdata[8]; // room for length and 7 databytes
-//     char writedata[9]; // room for reg address, length and 7 databytes
+//     char regaddr[1] = {};
+//     char readdata[8] = {}; // room for length and 7 databytes
+//     unsigned int lengthReaddata = sizeof(readdata);
+
+//     char writedata[9] = {}; // room for reg address, length and 7 databytes
+//     unsigned int lengthWritedata = sizeof(writedata);
 
 //     while (1) {
 //         regaddr[0] = 0x00;
@@ -83,16 +86,18 @@
 //         i2c.read(addr, readdata, 8);        // read the length byte and the 7 databytes
  
 //         // print the data to the screen
+//         printf("\r\n");
 //         printf("///////////////////////////////////\r\n");
-//         pc.printf("Register1 0x%.4x = 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\r\n",
-//                   regaddr[0],
-//                   readdata[0], readdata[1], readdata[2], readdata[3], 
-//                   readdata[4], readdata[5], readdata[6], readdata[7] );
-//         pc.printf("Register2 %#.4x = %#x %#x %#x %#x %#x %#x %#x %#x\r\n",
-//                   regaddr[0],
-//                   readdata[0], readdata[1], readdata[2], readdata[3], 
-//                   readdata[4], readdata[5], readdata[6], readdata[7] );
-//         wait(1);
+//         pc.printf("Register1 0x%.4x =\t", regaddr[0]);
+//             for(unsigned int i = 0; i < lengthReaddata; i++){
+//             pc.printf("%x ", readdata[i]);
+//             } pc.printf("\r\n");
+//                  
+//         pc.printf("Register2 %#.4x =\t", regaddr[0]);
+//             for(unsigned int i = 0; i < lengthReaddata; i++){
+//             pc.printf("%x ", readdata[i]);
+//             } pc.printf("\r\n");
+
  
 //          // copy the data, starting with register address
 //          writedata[0] = regaddr[0];  // register address
@@ -108,16 +113,19 @@
 //         // write the data
 //         i2c.write(addr, writedata, 9); // select the register, 
 //                                        // write the length, write 7 databytes      
-//         pc.printf("Register3 0x%x = 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\r\n",
-//                   writedata[0],
-//                   writedata[1], writedata[2], writedata[3], writedata[4],
-//                   writedata[5], writedata[6], writedata[7], writedata[8] );
-//         pc.printf("Register4 %#x = %#x %#x %#x %#x %#x %#x %#x %#x\r\n",
-//                   writedata[0],
-//                   writedata[1], writedata[2], writedata[3], writedata[4],
-//                   writedata[5], writedata[6], writedata[7], writedata[8] );
-//         wait(1);
+//         pc.printf("Register3 0x%x =\t", writedata[0]);
+//             for(unsigned int i = 1; i < lengthWritedata; i++){
+//             pc.printf("%x ", writedata[i]);
+//             } pc.printf("\r\n");
 
+//         pc.printf("Register4 %#x =\t", writedata[0]);
+//             for(unsigned int i = 1; i < lengthWritedata; i++){
+//             pc.printf("%x ", writedata[i]);
+//             } pc.printf("\r\n");
+
+//         while(1) {
+//             ThisThread::sleep_for(30000);
+//         }
 
 
 // //  Uitgang:
@@ -141,68 +149,37 @@ using namespace EEPROMDriver;
 Serial pc(USBTX, USBRX);
 I2C i2cbus(I2C_SDA, I2C_SCL); //sda & scl
 
-int main(){
+int main() {
 
     printf("\r\n[Particula] Example of using EEPROM driver");
 
-    //original////////////////////////////////////////////////////
-    //char data[] = {0x05,0x61,0x92,0x31,0x04,0x55,0x68,0x7a,0x8b,0xc9,0xa4,0xb9};
-    //char data2[] = {0x05,0x64,0x92,0x31,0x04,0x55,0x68,0x7a};
-    //char data3[] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x10,0x11,0x12};
-    //////////////////////////////////////////////////////////////
-    char data[8] = {};
-    //char data[] = {0x0005,0x0061,0x0092,0x0031,0x0004,0x0055,0x0068,0x007a,0x008b,0x00c9,0x00a4,0x00b9};
-    //char data2[32] = {};
-    //char data3[64] = {};
-    //char data3[] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c};
+    char data[8] = {};  // Amount of bytes in data = 8
+    
+    unsigned int lengthData = sizeof(data); 
 
-    unsigned int lengthTest = sizeof(data); 
-    // unsigned int lengthTest2 = sizeof(data2);
-    // unsigned int lengthTest3 = sizeof(data3);
-        
-    //original////////////////////////////////////////////////////
-    char buffer[lengthTest] = {0};
-    // char buffer2[lengthTest2] = {0};
-    // char buffer3[lengthTest3] = {0};
-    //////////////////////////////////////////////////////////////
-    //char buffer[lengthTest];
-    //char buffer2[lengthTest2];
-    //char buffer3[lengthTest3];
+    char buffer[lengthData] = {};
     
     EEPROMDriver::EEPROM eeprom(&i2cbus);
 
     //pc.printf("\r\nWriting data array to eeprom");
-    //eeprom.write(data, lengthTest, 0); 
-    // eeprom.write(data2, lengthTest2, lengthTest);
-    //eeprom.write(data3, lengthTest3, lengthTest2 + lengthTest);
+    //eeprom.write(data, lengthData, 0); 
 
     pc.printf("\r\nReading from eeprom");
 
-    eeprom.read(buffer, lengthTest, 0);
-    // eeprom.read(buffer2, lengthTest2, lengthTest);
-    // eeprom.read(buffer3, lengthTest3, lengthTest2 + lengthTest);
+    eeprom.read(buffer, lengthData, 0);
 
     pc.printf("\r\nPrinting the read data from eeprom to Serial device");
     pc.printf("\r\n"); 
 
     //Uitlezen zonder 0x vooraan
-    for(unsigned int i = 0; i < lengthTest; i++){
+    for(unsigned int i = 0; i < lengthData; i++){
         pc.printf("%.2x ", buffer[i]);
     } pc.printf("\r\n");
 
-    for(unsigned int i = 0; i < lengthTest; i++){
+    for(unsigned int i = 0; i < lengthData; i++){
         pc.printf("0x%.2x ", buffer[i]);
     } pc.printf("\r\n");
 
-
-    // for(unsigned int i = 0; i < lengthTest2; i++){
-    //     pc.printf("0x%x ", buffer2[i]);
-    // } pc.printf("\r\n");
-
-
-    // for(unsigned int i = 0; i < lengthTest3; i++){
-    //     pc.printf("0x%x ", buffer3[i]);
-    // }
 
     while(1) {
         ThisThread::sleep_for(30000);

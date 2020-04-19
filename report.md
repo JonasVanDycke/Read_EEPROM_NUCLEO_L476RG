@@ -130,3 +130,9 @@ Printing the read data from eeprom to Serial device
 01 6b c4 46 42 86 f3 fb
 0x01 0x6b 0xc4 0x46 0x42 0x86 0xf3 0xfb
 ```
+
+## Zondag 19/04/2020 van 14u tot 15u25
+
+Herschikken en vereenvoudigen code.
+Code om uit de 8bytes uit te lezen in File 'ReadOnly.cpp' geplaatst.
+(Ook nog wat met oude code geprutst).
