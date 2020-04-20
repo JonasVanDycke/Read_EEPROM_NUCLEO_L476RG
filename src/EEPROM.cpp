@@ -28,7 +28,7 @@ namespace EEPROMDriver{
         }
 
         i2cBus->write(i2cAddress, data, length+2);
-        wait_ms(10); //write cycle delay
+        wait_ms(10); // write cycle delay
     }
     
 };

@@ -136,3 +136,9 @@ Printing the read data from eeprom to Serial device
 Herschikken en vereenvoudigen code.
 Code om uit de 8bytes uit te lezen in File 'ReadOnly.cpp' geplaatst.
 (Ook nog wat met oude code geprutst).
+
+
+## Maandag 20/04/2020 van 11u15 tot 13u30
+
+Na meating leerkrachten, heb ik zelf gekeken om een code te schrijven die de data uitleest.
+(Waarvan ongeveer 90% zelf gemaakt is)

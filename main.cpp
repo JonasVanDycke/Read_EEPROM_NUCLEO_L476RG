@@ -141,49 +141,106 @@
 // }
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "mbed.h"
-#include "EEPROM.h"
+// #include "mbed.h"
+// #include "EEPROM.h"
 
-using namespace EEPROMDriver;
+// using namespace EEPROMDriver;
+
+// Serial pc(USBTX, USBRX);
+// I2C i2cbus(I2C_SDA, I2C_SCL); //sda & scl
+
+// int main() {
+
+//     printf("\r\n[Particula] Example of using EEPROM driver");
+
+//     char data[8] = {};  // Amount of bytes in data = 8
+    
+//     unsigned int lengthData = sizeof(data); 
+
+//     //char buffer[lengthData] = {};
+    
+//     EEPROMDriver::EEPROM eeprom(&i2cbus);
+
+//     //pc.printf("\r\nWriting data array to eeprom");
+//     //eeprom.write(data, lengthData, 0); 
+
+//     pc.printf("\r\nReading from eeprom");
+
+//     eeprom.read(data, lengthData, 0);
+
+//     pc.printf("\r\nPrinting the read data from eeprom to Serial device");
+//     pc.printf("\r\n"); 
+
+//     //Uitlezen zonder 0x vooraan
+//     for(unsigned int i = 0; i < lengthData; i++){
+//         pc.printf("%.2x ", data[i]);
+//     } pc.printf("\r\n");
+
+//     for(unsigned int i = 0; i < lengthData; i++){
+//         pc.printf("0x%.2x ", data[i]);
+//     } pc.printf("\r\n");
+
+
+//     while(1) {
+//         ThisThread::sleep_for(30000);
+//     }
+
+//     return 0;
+// }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "mbed.h"
 
 Serial pc(USBTX, USBRX);
-I2C i2cbus(I2C_SDA, I2C_SCL); //sda & scl
-
+I2C i2c(I2C_SDA, I2C_SCL);
+ 
+const char addr = 0xA1; // define the correct I2C Address: 0xA1 = Read | 0xA0 = Write
+ 
 int main() {
+    char regaddr[2];
+        regaddr[0] = 0x0000;    // Adress of register you want to read
+                                // (If: regaddr[0] = 0x0000) Returns output -> 0x01 0xa2 0xeb 0x34 0x4e 0xdc 0x7c 0x5a
+                                // (If: regaddr[0] = 0x0001 (or higher)) Returns output -> 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 
-    printf("\r\n[Particula] Example of using EEPROM driver");
+        regaddr[1] = 0;         // First Data byte read is 0:
+                                // (If: regaddr[1] = 0) Returns output from 'Data byte 0' -> read: 0x01 0xa2 0xeb 0x34 0x4e 0xdc 0x7c 0x5a
+                                // (If: regaddr[1] = 4) Returns output from 'Data byte 4' -> read: 0x4e 0xdc 0x7c 0x5a 0xff 0xff 0xff 0xff
 
-    char data[8] = {};  // Amount of bytes in data = 8
+    char data[8];  // room for length of databytes
+    unsigned int lengthData = sizeof(data); // Return the size of characters from 'data' to an Intiger
+
+    //char writedata[9]; // room for reg address, length and 7 databytes
     
-    unsigned int lengthData = sizeof(data); 
+        // read the data
+        i2c.write(addr, regaddr, 2);  // select the register, no I2C Stop
+        i2c.read(addr, data, lengthData);        // read the length byte and the 7 databytes
+ 
+        // print the data to the screen
+        pc.printf("\r\n");
+        pc.printf("Register 0x%.4x = ", regaddr[0]);
+        for(unsigned int i = 0; i < lengthData; i++){
+            pc.printf("0x%.2x ", data[i]);
+        } pc.printf("\r\n");
+ 
+        // copy the data, starting with register address
+        // writedata[0] = regaddr[0];  // register address
+        // writedata[1] = readdata[0]; // length, should be 7
+        // writedata[2] = readdata[1]; // byte 1
+        // writedata[3] = readdata[2];
+        // writedata[4] = readdata[3];
+        // writedata[5] = readdata[4];
+        // writedata[6] = readdata[5];
+        // writedata[7] = readdata[6];
+        // writedata[8] = readdata[7]; // byte 7
+ 
+        // // write the data
+        // i2c.write(addr, writedata, 9); // select the register, 
+                                       // write the length, write 7 databytes      
 
-    char buffer[lengthData] = {};
     
-    EEPROMDriver::EEPROM eeprom(&i2cbus);
 
-    //pc.printf("\r\nWriting data array to eeprom");
-    //eeprom.write(data, lengthData, 0); 
-
-    pc.printf("\r\nReading from eeprom");
-
-    eeprom.read(buffer, lengthData, 0);
-
-    pc.printf("\r\nPrinting the read data from eeprom to Serial device");
-    pc.printf("\r\n"); 
-
-    //Uitlezen zonder 0x vooraan
-    for(unsigned int i = 0; i < lengthData; i++){
-        pc.printf("%.2x ", buffer[i]);
-    } pc.printf("\r\n");
-
-    for(unsigned int i = 0; i < lengthData; i++){
-        pc.printf("0x%.2x ", buffer[i]);
-    } pc.printf("\r\n");
-
-
-    while(1) {
-        ThisThread::sleep_for(30000);
+    while (1) {
+        ThisThread::sleep_for(30000);   // link difference between 'sleep' and 'wait' <https://howtodoinjava.com/java/multi-threading/sleep-vs-wait/>
     }
-
     return 0;
 }
